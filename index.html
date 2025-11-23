@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Biblioteca de Juegos</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #181818;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .game-list a {
+            display: block;
+            background: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            color: #00eaff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .game-list a:hover {
+            background: #444;
+        }
+        .add-game {
+            background: #222;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #00eaff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #00b0c7;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎮 Mi Biblioteca de Juegos</h1>
+
+<div class="game-list" id="gameList"></div>
+
+<div class="add-game">
+    <h2>Añadir nuevo juego</h2>
+    <input id="gameName" type="text" placeholder="Nombre del juego">
+    <input id="gameURL" type="text" placeholder="URL del juego (HTML5 o página)">
+    <button onclick="addGame()">Añadir</button>
+</div>
+
+<script>
+    let games = JSON.parse(localStorage.getItem("games")) || [];
+
+    function renderGames() {
+        const list = document.getElementById("gameList");
+        list.innerHTML = "";
+        games.forEach((game, index) => {
+            list.innerHTML += `<a href="${game.url}" target="_blank">${game.name}</a>`;
+        });
+    }
+
+    function addGame() {
+        const name = document.getElementById("gameName").value;
+        const url = document.getElementById("gameURL").value;
+
+        if (!name || !url) {
+            alert("Introduce un nombre y una URL");
+            return;
+        }
+
+        games.push({ name, url });
+        localStorage.setItem("games", JSON.stringify(games));
+
+        renderGames();
+        document.getElementById("gameName").value = "";
+        document.getElementById("gameURL").value = "";
+    }
+
+    renderGames();
+</script>
+
+</body>
+</html>
